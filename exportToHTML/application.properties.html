@@ -1,0 +1,38 @@
+<html>
+<head>
+<title>application.properties</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #7a7e85;}
+.s1 { color: #bcbec4;}
+.s2 { color: #cf8e6d;}
+.s3 { color: #808080;}
+.s4 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+application.properties</font>
+</center></td></tr></table>
+<pre><span class="s0"># Server configuration</span>
+<span class="s2">server.port</span><span class="s3">=</span><span class="s4">8080</span>
+
+<span class="s0"># Database configuration</span>
+<span class="s2">spring.datasource.url</span><span class="s3">=</span><span class="s4">jdbc:h2:mem:testdb</span>
+<span class="s2">spring.datasource.username</span><span class="s3">=</span><span class="s4">sa</span>
+<span class="s2">spring.datasource.password</span><span class="s3">=</span><span class="s4">password</span>
+<span class="s2">spring.datasource.driver-class-name</span><span class="s3">=</span><span class="s4">org.h2.Driver</span>
+
+<span class="s0"># JPA and Hibernate configuration</span>
+<span class="s2">spring.jpa.hibernate.ddl-auto</span><span class="s3">=</span><span class="s4">update</span>
+<span class="s2">spring.jpa.show-sql</span><span class="s3">=</span><span class="s4">true</span>
+<span class="s2">spring.jpa.properties.hibernate.dialect</span><span class="s3">=</span><span class="s4">org.hibernate.dialect.H2Dialect</span>
+
+<span class="s0"># Logging configuration</span>
+<span class="s2">logging.level.org.springframework</span><span class="s3">=</span><span class="s4">INFO</span>
+<span class="s2">logging.level.com.example.demo</span><span class="s3">=</span><span class="s4">DEBUG</span>
+</pre>
+</body>
+</html>
