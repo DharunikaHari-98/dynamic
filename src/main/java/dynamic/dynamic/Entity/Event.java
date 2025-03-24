@@ -1,7 +1,13 @@
 package dynamic.dynamic.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Event {
@@ -9,6 +15,8 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull(message = "Event name cannot be null")
+    @NotBlank(message = "Event name cannot be blank")
     @Column(unique = true)
     private String eventName;
 
@@ -17,31 +25,39 @@ public class Event {
     private String time;
     private int availableSeats;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "organizer_id")
+
     private Organizer organizer;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "venue_id")
+
     private Venue venue;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
+    @ManyToMany(mappedBy = "events")
+    @JsonIgnore
+    private Set<User> users;
 
-    // Getters and Setters
+
+    public Event()
+    {
+
+    }
+
     public Long getId() {
         return id;
     }
+
     public void setId(Long id) {
         this.id = id;
     }
 
-    public String getEventName() {
+    public @NotNull(message = "Event name cannot be null") @NotBlank(message = "Event name cannot be blank") String getEventName() {
         return eventName;
     }
 
-    public void setEventName(String eventName) {
+    public void setEventName(@NotNull(message = "Event name cannot be null") @NotBlank(message = "Event name cannot be blank") String eventName) {
         this.eventName = eventName;
     }
 
@@ -93,11 +109,23 @@ public class Event {
         this.venue = venue;
     }
 
-    public User getUser() {
-        return user;
+    public Set<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(Set<User> users) {
+        this.users = users;
+    }
+
+    public Event(Long id, String eventName, String location, String date, String time, int availableSeats, Organizer organizer, Venue venue, Set<User> users) {
+        this.id = id;
+        this.eventName = eventName;
+        this.location = location;
+        this.date = date;
+        this.time = time;
+        this.availableSeats = availableSeats;
+        this.organizer = organizer;
+        this.venue = venue;
+        this.users = users;
     }
 }
