@@ -14,17 +14,14 @@ public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotNull(message = "Event name cannot be null")
     @NotBlank(message = "Event name cannot be blank")
     @Column(unique = true)
     private String eventName;
-
     private String location;
     private String date;
     private String time;
     private int availableSeats;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "organizer_id")
 
@@ -34,7 +31,6 @@ public class Event {
     @JoinColumn(name = "venue_id")
 
     private Venue venue;
-
     @ManyToMany(mappedBy = "events")
     @JsonIgnore
     private Set<User> users;

@@ -1,12 +1,16 @@
 package dynamic.dynamic.Service;
+import dynamic.dynamic.Entity.Event;
 import dynamic.dynamic.Entity.Organizer;
 import dynamic.dynamic.Entity.Venue;
+import dynamic.dynamic.Repository.EventRepository;
 import dynamic.dynamic.Repository.OrganizerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -18,6 +22,8 @@ public class OrganizerService {
     }
     @Autowired
     private VenueService vs;
+
+
     @Transactional
     public Organizer saveOrganizer(Organizer organizer) {
         return organizerRepository.save(organizer);
@@ -51,4 +57,7 @@ public class OrganizerService {
         organizer.getVenues().add(venue);
         return organizerRepository.save(organizer);
     }
+
+
+
 }

@@ -1,6 +1,8 @@
 package dynamic.dynamic.Entity;
 import jakarta.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.time.LocalDateTime;
 import java.util.List;
 @Entity
 public class Organizer {
@@ -11,7 +13,6 @@ public class Organizer {
     @OneToMany(mappedBy = "organizer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Event> events;
-
     @ManyToMany
     @JoinTable(
             name="organ_venue",
@@ -21,15 +22,12 @@ public class Organizer {
     @JsonIgnore
     private List<Venue> venues;
     public Organizer() {}
-
-
     public Organizer(Long id, String name, List<Event> events, List<Venue> venues) {
         this.id = id;
         this.name = name;
         this.events = events;
         this.venues = venues;
     }
-
     public List<Venue> getVenues() {
         return venues;
     }
@@ -42,5 +40,4 @@ public class Organizer {
     public void setName(String name) { this.name = name; }
     public List<Event> getEvents() { return events; }
     public void setEvents(List<Event> events) { this.events = events; }
-
 }

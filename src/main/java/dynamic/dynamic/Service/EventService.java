@@ -5,6 +5,8 @@ import dynamic.dynamic.Entity.User;
 import dynamic.dynamic.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -35,9 +37,24 @@ public class EventService {
         }
         return null;
     }
-    public void deleteEvent(Long id) {
-        eventRepository.deleteById(id);
+    public boolean deleteEvent(Long id) {
+        if (eventRepository.existsById(id)) {
+            Event event = eventRepository.findById(id).orElse(null);
+            if (event != null) {
+                // Clear the relationship between users and this event
+                event.getUsers().forEach(user -> user.getEvents().remove(event));
+                event.setUsers(null); // Remove all associated users
+
+
+                eventRepository.save(event);
+
+                eventRepository.deleteById(id);
+                return true;
+            }
+        }
+        return false;
     }
+
     public List<Event> getEventsByOrganizer(Long organizerId) {
         return eventRepository.findEventsByOrganizer(organizerId);
     }
@@ -47,5 +64,26 @@ public class EventService {
                 .filter(event -> event.getUsers().stream().anyMatch(user -> user.getId().equals(userId)))
                 .toList();
     }
+
+    public List<Event> getEventsByUserId(Long userId) {
+        return eventRepository.findEventsByUserId(userId);
+    }
+
+
+
+    public long countUsersByEvent(Long eventId) {
+        if (!eventRepository.existsById(eventId)) {
+            throw new IllegalArgumentException("Event ID does not exist");
+        }
+        return eventRepository.countUsersByEventId(eventId);
+    }
+
+
+    public List<User> getUsersByEventId(Long eventId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new IllegalArgumentException("Event ID does not exist"));
+        return new ArrayList<>(event.getUsers());
+    }
+
 
 }

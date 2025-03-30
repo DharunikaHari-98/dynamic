@@ -27,10 +27,6 @@ public class User {
     @JsonIgnore
     private Set<Event> events;
 
-
-
-
-    // Constructors
     public User() {}
 
 

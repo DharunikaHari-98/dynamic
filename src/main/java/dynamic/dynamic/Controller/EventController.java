@@ -17,15 +17,12 @@ import java.util.Map;
 public class EventController {
     @Autowired
     private EventService eventService;
-
-
     //http://localhost:8080/api/events
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE })
     public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {  // Added @Valid
         Event savedEvent = eventService.saveEvent(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
     }
-
     @GetMapping
     public List<Event> getAllEvents() {
         return eventService.getAllEvents();
@@ -36,13 +33,11 @@ public class EventController {
         return eventService.getEventById(id);
     }
     //http://localhost:8080/api/events/{id}
-
     @PutMapping("/{id}")
     public Event updateEvent(@PathVariable Long id,@Valid @RequestBody Event event) {
         return eventService.updateEvent(id, event);
     }
     //http://localhost:8080/api/events/{id}
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteEvent(@PathVariable Long id) {
@@ -58,5 +53,29 @@ public class EventController {
     public List<Event> getEventsByUser(@PathVariable Long userId) {
         return eventService.getEventsByUser(userId);
     }
+    @GetMapping("/events")
+    public List<Event> getAllEventsForUser() {
+        // Fetch all events using the EventService
+        return eventService.getAllEvents();
+    }
 
+    @GetMapping("/{eventId}/user-count")
+    public ResponseEntity<?> getUserCountForEvent(@PathVariable Long eventId) {
+        try {
+            long userCount = eventService.countUsersByEvent(eventId);
+            return ResponseEntity.ok(userCount);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+    @GetMapping("/events/{eventId}/users")
+    public ResponseEntity<?> getUsersForEvent(@PathVariable Long eventId) {
+        try {
+            // Fetch and return users for the event
+            List<User> users = eventService.getUsersByEventId(eventId);
+            return ResponseEntity.ok(users);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

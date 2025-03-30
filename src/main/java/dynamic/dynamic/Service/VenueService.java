@@ -30,10 +30,26 @@ public class VenueService {
             return venueRepository.save(venue);
         }
         return null;
-    }//ena ena change pannanum ma
+    }
 
-    public void deleteVenue(Long id) {
-        venueRepository.deleteById(id);
+    public boolean deleteVenue(Long id) {
+        if (venueRepository.existsById(id)) {
+            Venue venue = venueRepository.findById(id).orElse(null);
+            if (venue != null) {
+                if (venue.getEvents() != null && !venue.getEvents().isEmpty()) {
+
+                    venue.getEvents().forEach(event -> event.setVenue(null));
+                }
+
+
+                venueRepository.save(venue);
+
+
+                venueRepository.deleteById(id);
+                return true;
+            }
+        }
+        return false;
     }
     public List<Venue> getVenuesByLocation(String location) {
         return venueRepository.findVenuesByLocation(location);
