@@ -1,6 +1,6 @@
 package dynamic.dynamic.Service;
 
-import dynamic.dynamic.Entity.Event;  // Correct import statement
+import dynamic.dynamic.Entity.Event; 
 import dynamic.dynamic.Entity.User;
 import dynamic.dynamic.Repository.EventRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,9 +41,9 @@ public class EventService {
         if (eventRepository.existsById(id)) {
             Event event = eventRepository.findById(id).orElse(null);
             if (event != null) {
-                // Clear the relationship between users and this event
+          
                 event.getUsers().forEach(user -> user.getEvents().remove(event));
-                event.setUsers(null); // Remove all associated users
+                event.setUsers(null);
 
 
                 eventRepository.save(event);
