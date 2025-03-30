@@ -1,6 +1,6 @@
 package dynamic.dynamic.Controller;
 
-import dynamic.dynamic.Entity.Event;  // Correct import statement
+import dynamic.dynamic.Entity.Event;  
 import dynamic.dynamic.Entity.User;
 import dynamic.dynamic.Service.EventService;
 import jakarta.validation.Valid;
@@ -19,7 +19,7 @@ public class EventController {
     private EventService eventService;
     //http://localhost:8080/api/events
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE, MediaType.ALL_VALUE })
-    public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {  // Added @Valid
+    public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {  
         Event savedEvent = eventService.saveEvent(event);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedEvent);
     }
@@ -48,14 +48,14 @@ public class EventController {
     public List<Event> getEventsByOrganizer(@PathVariable Long organizerId) {
         return eventService.getEventsByOrganizer(organizerId);
     }
-    // Get all events a specific user has registered for
+
     @GetMapping("/user/{userId}")
     public List<Event> getEventsByUser(@PathVariable Long userId) {
         return eventService.getEventsByUser(userId);
     }
     @GetMapping("/events")
     public List<Event> getAllEventsForUser() {
-        // Fetch all events using the EventService
+     
         return eventService.getAllEvents();
     }
 
@@ -71,7 +71,7 @@ public class EventController {
     @GetMapping("/events/{eventId}/users")
     public ResponseEntity<?> getUsersForEvent(@PathVariable Long eventId) {
         try {
-            // Fetch and return users for the event
+          
             List<User> users = eventService.getUsersByEventId(eventId);
             return ResponseEntity.ok(users);
         } catch (IllegalArgumentException e) {
