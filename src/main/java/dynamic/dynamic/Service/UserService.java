@@ -63,9 +63,9 @@ public class UserService {
                 return "User is already registered for this event.";
             }
             if (event.getAvailableSeats() > 0) {
-                event.getUsers().add(user); // Add user to event
-                user.getEvents().add(event); // Add event to user
-                event.setAvailableSeats(event.getAvailableSeats() - 1); // Decrease available seats
+                event.getUsers().add(user); 
+                user.getEvents().add(event); 
+                event.setAvailableSeats(event.getAvailableSeats() - 1); 
 
                 userRepository.save(user);
                 eventRepository.save(event);
@@ -80,7 +80,7 @@ public class UserService {
         if (userOptional.isEmpty()) {
             throw new RuntimeException("User not found");
         }
-        return userOptional.get().getEvents(); // Assuming events is a Set<Event>
+        return userOptional.get().getEvents(); 
     }
     public List<User> getUsersNotRegisteredForAnyEvent() {
         return userRepository.findUsersNotRegisteredForAnyEvent();
