@@ -1,5 +1,5 @@
 package dynamic.dynamic.Repository;
-import dynamic.dynamic.Entity.Event;  // Correct import statement
+import dynamic.dynamic.Entity.Event;  
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
